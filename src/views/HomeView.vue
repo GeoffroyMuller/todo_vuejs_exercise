@@ -15,10 +15,16 @@ loadAll()
 
 async function handleSubmit() {
   loadingCreate.value = true
+  try {
+    await create(todo.value)
+    loadingCreate.value = false
+  } catch (error) {
+    console.error(error)
+    loadingCreate.value = false
+  }
 
-  await create(todo.value)
   loadingCreate.value = false
-  todo.value = todoDefaultValue
+  todo.value = { title: '', description: '', completed: false, dueDate: '' }
 }
 </script>
 <template>
@@ -36,7 +42,11 @@ async function handleSubmit() {
         <label for="due_date">date</label>
         <input id="due_date" type="date" v-model="todo.dueDate" />
       </div>
-      <button class="bg-cyan-800 text-white rounded-full p-2 hover:cursor-pointer" type="submit" :disabled="loadingCreate">
+      <button
+        class="bg-cyan-800 text-white rounded-full p-2 hover:cursor-pointer"
+        type="submit"
+        :disabled="loadingCreate"
+      >
         Creer {{ loadingCreate ? '...' : '' }}
       </button>
     </form>
@@ -56,12 +66,11 @@ form {
     flex-direction: column;
     justify-content: start;
     input {
-      @apply rounded-md border-gray-600 shadow px-3 py-1 ;
+      @apply rounded-md border-gray-600 shadow px-3 py-1;
     }
   }
   button {
     width: 100%;
-
   }
 }
 </style>
