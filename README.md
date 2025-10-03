@@ -1,4 +1,4 @@
-Temps de dev 1h48
+Temps de dev 1h48    //current 5min30
 
 # vuejstodo
 
